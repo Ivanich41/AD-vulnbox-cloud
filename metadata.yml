@@ -1,0 +1,8 @@
+#cloud-config
+users:
+  - name: admin
+    groups: sudo
+    shell: /bin/bash
+    sudo: 'ALL=(ALL) NOPASSWD:ALL'
+    ssh-authorized-keys:
+        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCsVW0yvxgU8+sRkXgqFx+UdapbhD77mnrKD63L7i+HjcWkjYOM8Jpigyy1xzrk3K6fNlkF/NXj5UgCVJha6C/vzEOwdAO5U+MPkfQScBUraEMGw4lO3JOfASOlT0keNWvHUM8S3F7xenHzM4tTRTrZ/h7hveUCeow2YOXsXmB3b0YbNKiX1KOvn3TSuuzNf+hP9J6JGe42+aaYzB1ssdr+DpFUR9iQP+wHlF/3pME/piqJMrd6gBtKRZlK1ev+hV9sWOrst8ba/FuKuXrezGP02Rs8yICtaynu76hPPowkMvGnzsBHoP07EB3DszNw7KJChQ3Nv8/OH7lvX0G8szJeGPaCKm65m+Xdr1wIYlQR8iG0jLbES33eiO7Prk/Jd9FBQ1NPaNO1rGzGCpISgb9NUFO6buVhw1ek0er2Ap5Dn+g57tlq+N9AGySo6Sp8jgIDFfYZHKnZPpT/I1eo1so7w+NGcC1hX/Rsy5QYhwl2MAOc5XQIvM9DOvkHddtqmyE= ivanich@ivanich-laptop
