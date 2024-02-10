@@ -1,2 +1,3 @@
 .terrafrom.lock.hcl
-terrafrom.tfstate*
+terrafrom.tfstate
+terrafrom.tfstate.backup

@@ -1,0 +1,11 @@
+
+- name: Roles config
+  hosts: cisco-routers
+  connection: local
+  roles:
+    - baseconfig
+    - docker 
+    - packmate
+    - s4dfarm
+    - codeserver
+    - firegex

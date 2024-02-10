@@ -1,0 +1,17 @@
+---
+# tasks file for baseconfig
+- name: Update repositories and install debian software
+  ansible.builtin.apt:
+    update_cache: yes
+    pkg:
+    - vim 
+    - htop 
+    - tmux
+    - curl 
+    - wget 
+    - tldr 
+    - openvpn
+    - wireguard 
+    - resolvconf
+    - tcpdump
+    - pktstat

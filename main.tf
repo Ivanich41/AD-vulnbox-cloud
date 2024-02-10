@@ -12,7 +12,7 @@ provider "yandex" {
 }
 
 resource "yandex_vpc_network" "yc-network" {
-  name = "vylnbox-network"
+  name = "vulnbox-network"
 }
 
 resource "yandex_vpc_subnet" "yc-subnet-0" {
@@ -44,11 +44,17 @@ resource "yandex_compute_instance" "ad-vulnbox" {
   scheduling_policy {
       preemptible = false
     }
+  
 }
 resource "yandex_compute_disk" "vulnbox-disk" {
   name =  "vulnbox-disk"
   size = 40
   type = "network-ssd"
   zone     = "ru-central1-b"
-  image_id = "fd8s78up10fbjbe5atn7" # Ubuntu 22.04
+  image_id = "fd8dfiq123s8j82s85il" # Debian 12
+}
+
+output "connect_data" {
+  value = yandex_compute_instance.ad-vulnbox.network_interface
+  description = "ip addr"
 }
