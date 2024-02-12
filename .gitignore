@@ -1,3 +1,5 @@
 .terrafrom.lock.hcl
 terrafrom.tfstate
 terrafrom.tfstate.backup
+.terrafrom/
+test/

@@ -56,5 +56,7 @@ resource "yandex_compute_disk" "vulnbox-disk" {
 
 output "connect_data" {
   value = yandex_compute_instance.ad-vulnbox.network_interface
+  # TODO: Try this https://terraform-provider.yandexcloud.net/Resources/compute_instance#attributes-reference
+  # value = yandex_compute_instance.ad-vulnbox.network_interfacee.0.nat_ip_addres
   description = "ip addr"
 }
