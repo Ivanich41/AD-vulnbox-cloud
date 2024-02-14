@@ -44,7 +44,17 @@ resource "yandex_compute_instance" "ad-vulnbox" {
   scheduling_policy {
       preemptible = false
     }
-  
+  provisioner "remote-exec" {
+    inline = ["cat /dev/null"]
+    when = create
+
+    connection {
+      type = "ssh"
+      user = "root"
+      private_key = "${file("~/.ssh/id_rsa")}"
+      host = yandex_compute_instance.ad-vulnbox.network_interface.0.nat_ip_address
+    }
+  }
 }
 resource "yandex_compute_disk" "vulnbox-disk" {
   name =  "vulnbox-disk"
@@ -54,9 +64,8 @@ resource "yandex_compute_disk" "vulnbox-disk" {
   image_id = "fd8dfiq123s8j82s85il" # Debian 12
 }
 
-output "connect_data" {
-  value = yandex_compute_instance.ad-vulnbox.network_interface
-  # TODO: Try this https://terraform-provider.yandexcloud.net/Resources/compute_instance#attributes-reference
-  # value = yandex_compute_instance.ad-vulnbox.network_interfacee.0.nat_ip_addres
-  description = "ip addr"
+output "vulnbox_external_ip" {
+  value = yandex_compute_instance.ad-vulnbox.network_interface.0.nat_ip_address
+  description = "Print external ip"
 }
+
