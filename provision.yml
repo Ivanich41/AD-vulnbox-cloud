@@ -1,7 +1,7 @@
 
 - name: Roles config
-  hosts: cisco-routers
-  connection: local
+  hosts: all
+  become: true
   roles:
     - baseconfig
     - docker 

@@ -44,17 +44,6 @@ resource "yandex_compute_instance" "ad-vulnbox" {
   scheduling_policy {
       preemptible = false
     }
-  provisioner "remote-exec" {
-    inline = ["cat /dev/null"]
-    when = create
-
-    connection {
-      type = "ssh"
-      user = "root"
-      private_key = "${file("~/.ssh/id_rsa")}"
-      host = yandex_compute_instance.ad-vulnbox.network_interface.0.nat_ip_address
-    }
-  }
 }
 resource "yandex_compute_disk" "vulnbox-disk" {
   name =  "vulnbox-disk"

@@ -1,5 +1,24 @@
 ---
 # tasks file for baseconfig
+- name: Check if resolv.conf file exists
+  stat:
+      path: /etc/resolv.conf
+  register: file_info
+
+- name: Create /etc/resolv.conf if it exists
+  file:
+     path: /etc/resolv.conf
+     state: touch
+  when: not file_info.stat.exists
+
+- name: Set DNS nameservers in /etc/resolv.conf
+  blockinfile:
+      path: /etc/resolv.conf
+      block: |
+            nameserver 8.8.8.8
+            nameserver 1.1.1.1
+            nameserver 77.88.8.8 
+
 - name: Update repositories and install debian software
   ansible.builtin.apt:
     update_cache: yes
