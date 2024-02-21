@@ -1,2 +1,46 @@
 ---
 # tasks file for s4dfarm
+
+- name: Check if packmate directory exists
+  ansible.builtin.stat:
+    path: /root/s4dfarm
+  register: dir_stat
+
+# Не клонируем заново s4dfarm, если уже есть его дирректория
+- name: Create s4dfarm directory
+  ansible.builtin.file:
+    path: /root/s4dfarm
+    state: directory
+    mode: '0755'
+  when: not dir_stat.stat.exists
+
+- name: Clone s4dfarm repo
+  ansible.builtin.git:
+    repo: https://github.com/C4T-BuT-S4D/S4DFarm.git
+    dest: /root/s4dfarm/
+  when: not dir_stat.stat.exists
+
+- name: Pull postgres image
+  community.docker.docker_image:
+    name: postgres:14.1-alpine
+    source: pull
+    pull:
+      platform: amd64
+
+- name: Pull redis image
+  community.docker.docker_image:
+    name: redis:7.2.0-alpine
+    source: pull
+    pull:
+      platform: amd64
+  
+- name: Replace SERVER_PASSWORD
+  ansible.builtin.replace:
+    path: /root/s4dfarm/server/app/config.py
+    regexp: "'1234'"
+    replace: "'d3f@u1t_p@ssw0rd'"
+
+- name: Debug message after installation 
+  debug:
+    msg: Настройте и запустите  S4DFARM в директории /root/s4dfarm/server/app/config.py
+

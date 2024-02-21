@@ -1,2 +1,65 @@
 ---
 # tasks file for packmate
+- name: Check if packmate directory exists
+  ansible.builtin.stat:
+    path: /root/packmate
+  register: dir_stat
+
+# Не клонируем заново packmate, если уже есть его дирректория
+- name: Create packmate directory
+  ansible.builtin.file:
+    path: /root/packmate
+    state: directory
+    mode: '0755'
+  when: not dir_stat.stat.exists
+
+- name: Clone pacmate repo
+  ansible.builtin.git:
+    repo: https://gitlab.com/packmate/starter.git
+    dest: /root/packmate/
+  when: not dir_stat.stat.exists
+
+- name: Pull main packmate image
+  community.docker.docker_image:
+    name: registry.gitlab.com/packmate/packmate
+    source: pull
+    pull:
+      platform: amd64
+
+- name: Pull packmate db
+  community.docker.docker_image:
+    name: postgres:15.2
+    source: pull
+    pull:
+      platform: amd64
+
+- name: Check pulled images
+  community.docker.docker_image_info:
+    name: "{{ item }}"
+  loop:
+    - registry.gitlab.com/packmate/packmate
+    - postgres:15.2
+  register: docker_images
+  ignore_errors: true
+
+- name: Remove and replace PACKMATE_WEB_LOGIN
+  ansible.builtin.lineinfile:
+    path: /root/packmate/.env
+    regexp: '^PACKMATE_WEB_LOGIN=.*'
+    line: 'PACKMATE_WEB_LOGIN=BinaryBears'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Remove and replace PACKMATE_WEB_PASSWORD
+  ansible.builtin.lineinfile:
+    path: /root/packmate/.env
+    regexp: '^PACKMATE_WEB_PASSWORD=.*'
+    line: 'PACKMATE_WEB_PASSWORD=d3f@u1t_p@ssw0rd'
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Readiness message 
+  debug:
+    msg: Настройте и запустите Packmate в директории /root/packmate

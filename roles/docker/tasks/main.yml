@@ -1,25 +1,25 @@
 ---
 # tasks file for docker
-    # - name: Add Docker GPG apt Key
-    #   apt_key:
-    #     url: https://download.docker.com/linux/ubuntu/gpg
-    #     state: present
 
-    # - name: Add Docker Repository
-    #   apt_repository:
-    #     repo: deb https://download.docker.com/linux/ubuntu focal stable
-    #     state: present
+  - name: Check docker installation
+    command: docker --version
+    register: docker_check
+    ignore_errors: true
 
-    # - name: Update apt and install docker-ce
-    #   apt:
-    #     name: docker-ce
-    #     state: latest
-    #     update_cache: true
+# Если docker установлен, то все последующие задания будут пропущены
   - name: Get Docker installation script
     ansible.builtin.get_url:
       url: https://get.docker.com
       dest: /root/get-docker.sh
       mode: '700'
+    when: docker_check.rc !=  0
 
   - name: Run docker installation script 
     ansible.builtin.shell: /root/get-docker.sh
+    when: docker_check.rc !=  0
+
+  - name: Remove Docker installation script
+    ansible.builtin.file:
+      path: /root/get-docker.sh
+      state: absent
+    when: docker_check.rc !=  0

@@ -50,7 +50,7 @@ resource "yandex_compute_disk" "vulnbox-disk" {
   size = 40
   type = "network-ssd"
   zone     = "ru-central1-b"
-  image_id = "fd8dfiq123s8j82s85il" # Debian 12
+  image_id = "fd8svvs3unvqn83thrdk" # Ubuntu 22.04 
 }
 
 output "vulnbox_external_ip" {

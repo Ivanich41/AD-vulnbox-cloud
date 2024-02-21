@@ -1,0 +1,27 @@
+---
+# tasks file for post-install
+
+  - name: All ready message
+    debug:
+      msg: 
+        - "Packmate"
+        - "—————————————————"
+        - "Address: http://{{ ansible_host }}:65000"
+        - "Creds: BinaryBears : d3f@u1t_p@ssw0rd"
+        - "http://BinaryBears:d3f@u1t_p@ssw0rd@{{ ansible_host }}:65000"
+        - ""
+        - "Farm"
+        - "—————————————————"
+        - " Address: http://{{ ansible_host }}:5137"
+        - " Creds: d3f@u1t_p@ssw0rd"
+        - " http://{{ ansible_host }}:5137/?password=d3f@u1t_p@ssw0rd"
+        - ""
+        - "Code-Server"
+        - "—————————————————"
+        - "Address: http://{{ ansible_host }}:8080"
+        - "Creds: d3f@u1t_p@ssw0rd"
+        - ""
+        - "Firegex"
+        - "—————————————————"
+        - "Address: http://{{ ansible_host }}:4444"
+        - "Creds: d3f@u1t_p@ssw0rd"

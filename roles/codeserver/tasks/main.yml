@@ -1,2 +1,65 @@
 ---
 # tasks file for codeserver
+
+  - name: Find Unit
+    ansible.builtin.stat:
+      path: /lib/systemd/system/code-server@.service
+    register: unit_exists
+  
+ # Не устанавливаем code server, если уже есть его юнит systmed
+  - name: Debug message if already installed
+    debug:
+      msg: Юннит systemd обнраужен, пропускаю установку 
+    when: unit_exists.stat.exists
+
+  - name: Get Code server installation script 
+    ansible.builtin.get_url:
+      url: https://code-server.dev/install.sh
+      dest: /root/install-code-server.sh
+      mode: '700'
+    when: not unit_exists.stat.exists
+  
+  - name: Run code server installation script 
+    ansible.builtin.shell: /root/install-code-server.sh
+    when: not unit_exists.stat.exists
+    register: newly_installed
+
+  - name: Debug message if newly installed
+    debug:
+      msg: Code server успешно установлен, запускаю
+    when: newly_installed.rc == 0
+    ignore_errors: true
+
+  - name: Fisrt launch to generate config 
+    ansible.builtin.systemd:
+      name: code-server@root
+      state: started
+
+  - name: Remove default config
+    ansible.builtin.file:
+      path: /root/.config/code-server/config.yaml
+      state: absent
+    
+  - name: Create config.yaml with custom password and multicast address
+    copy:
+      content: |
+        bind-addr: 0.0.0.0:8080
+        auth: password
+        password:   d3f@u1t_p@ssw0rd
+        cert: false
+      dest: /root/.config/code-server/config.yaml
+      owner: root
+      group: root
+      mode: '0777'
+
+  - name: Restart code server after configuration 
+    ansible.builtin.systemd:
+      name: code-server@root
+      state: restarted
+
+  - name: Remove Code server installation script
+    ansible.builtin.file:
+      path: /root/install-code-server.sh
+      state: absent
+    ignore_errors: true
+  

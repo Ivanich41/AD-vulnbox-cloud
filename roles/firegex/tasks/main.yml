@@ -1,2 +1,24 @@
 ---
 # tasks file for firegex
+  - name: Check if packmate directory exists
+    ansible.builtin.stat:
+      path: /root/firegex
+    register: dir_stat
+
+# Не клонируем заново packmate, если уже есть его дирректория
+  - name: Create firegex directory
+    ansible.builtin.file:
+      path: /root/firegex
+      state: directory
+      mode: '0755'
+    when: not dir_stat.stat.exists
+    
+  - name: Clone firegex repo
+    ansible.builtin.git:
+      repo: https://github.com/Pwnzer0tt1/firegex.git
+      dest: /root/firegex/
+    when: not dir_stat.stat.exists
+  
+  - name: Readiness message 
+    debug:
+      msg: "Настройте и запустите Firegex в директории /root/firegex/start.py"
