@@ -62,4 +62,4 @@
 
 - name: Readiness message 
   debug:
-    msg: Настройте и запустите Packmate в директории /root/packmate
+    msg: Настройте и запустите Packmate в директории /root/packmate/.env
