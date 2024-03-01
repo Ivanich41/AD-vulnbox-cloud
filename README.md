@@ -32,6 +32,7 @@ terraform apply --auto-approve
 ansible-playbook -u admin --private-key ~/.ssh/id_rsa --ssh-common-args='-o StrictHostKeyChecking=no' provision.yml -i your_ip,
 ```
 Замените *your_ip* на айпи адрес и не забудьте оставить запятую после него.
+Пароль для всех сервисов содержится в переменной **universal_pass** в файле [provision.yml](./provision.yml)
 После выполнения настройки Ansible выведет summary по установленным инструментам
 ![summary](./static/summary.png) 
 
