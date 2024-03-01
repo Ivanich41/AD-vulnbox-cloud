@@ -45,7 +45,7 @@
       content: |
         bind-addr: 0.0.0.0:8080
         auth: password
-        password:   d3f@u1t_p@ssw0rd
+        password:   {{ universal_pass }}
         cert: false
       dest: /root/.config/code-server/config.yaml
       owner: root

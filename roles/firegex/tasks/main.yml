@@ -18,7 +18,10 @@
       repo: https://github.com/Pwnzer0tt1/firegex.git
       dest: /root/firegex/
     when: not dir_stat.stat.exists
-  
+
+  - name: Запуск скрипта Python
+    ansible.builtin.command: python3 /root/firegex/start.py --psw-no-interactive {{ universal_pass }}
+
   - name: Readiness message 
     debug:
-      msg: "Настройте и запустите Firegex в директории /root/firegex/start.py"
+      msg: "Firegex установлен и запущен"

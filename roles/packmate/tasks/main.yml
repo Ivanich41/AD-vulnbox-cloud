@@ -55,7 +55,7 @@
   ansible.builtin.lineinfile:
     path: /root/packmate/.env
     regexp: '^PACKMATE_WEB_PASSWORD=.*'
-    line: 'PACKMATE_WEB_PASSWORD=d3f@u1t_p@ssw0rd'
+    line: 'PACKMATE_WEB_PASSWORD={{ universal_pass }}'
     owner: root
     group: root
     mode: '0644'

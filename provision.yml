@@ -2,6 +2,8 @@
 - name: Roles config
   hosts: all
   become: true
+  vars:
+    universal_pass: "d3f@u1t_p@ssw0rd"
   roles:
     - baseconfig
     - docker 

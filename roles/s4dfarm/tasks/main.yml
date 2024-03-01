@@ -38,7 +38,7 @@
   ansible.builtin.replace:
     path: /root/s4dfarm/server/app/config.py
     regexp: "'1234'"
-    replace: "'d3f@u1t_p@ssw0rd'"
+    replace: "'{{ universal_pass }}'"
 
 - name: Debug message after installation 
   debug:
